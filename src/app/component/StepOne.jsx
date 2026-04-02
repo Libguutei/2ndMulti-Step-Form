@@ -23,6 +23,7 @@ export const StepOne = ({ onNext, formData }) => {
   };
 
   const handleContinue = () => {
+    // Issubmitted(true);
     if (isFirstNameValid() || isLastNameValid() || isUserNameValid()) return;
     onNext({ firstname: firstname, lastname: lastname, username: username });
   };

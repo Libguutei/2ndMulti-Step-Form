@@ -1,11 +1,37 @@
+import StepOne from "./LabForm";
+import { TextField } from "./TextField";
+
 export const StepThree = () => {
-  <div className="flex justify-center min-h-screen items-center bg-[#F1F1F1]">
-    <div className="w-120 bg-black h-screen rounded-xl p-10 shadow-lg">
-      what
-    </div>
-    <div className="space-y-4">
-      <h1 className="font-semibold text-2xl">Join Us! 😎</h1>
-      <p className="text-sm text-[#8E8E8E]"></p>
+  <div className="bg-[#f4f4f4] flex justify-center items-center">
+    <div className="w-[480px] h-[655px] bg-white ">
+      <h1>Join Us </h1>
+      <p>Please provide all current information accurately.</p>
+      <TextField
+        value={value}
+        onChange={onChange}
+        type={Date}
+        label="Date of Birth"
+      />
+      <TextField
+        value={value}
+        onChange={onChange}
+        type={Image}
+        label="Profile image"
+      />
+      <div className="flex gap-3 mt-10">
+        <button
+          onClick={onBack}
+          className="flex justify-center items-center w-full h-11 border border-gray-300 rounded-md text-sm font-medium text-gray-700"
+        >
+          ← Back
+        </button>
+        <button
+          onClick={handleContinue}
+          className="flex justify-center items-center w-full h-11 bg-black rounded-md text-white text-sm font-medium"
+        >
+          Continue 2/3 →
+        </button>
+      </div>
     </div>
   </div>;
 };
