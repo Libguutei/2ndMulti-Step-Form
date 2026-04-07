@@ -2,47 +2,61 @@ import { use, useState } from "react";
 import { TextField } from "./TextField";
 
 export const StepTwo = ({ onNext, onBack, formData }) => {
-  const [email, setEmail] = useState(formData.email, "");
-  const [phonenumber, setPhoneNumber] = useState(formData.phonenumber, "");
-  const [password, setPassword] = useState(formData.password, "");
+  const [email, setEmail] = useState(formData.email || "");
+  const [phonenumber, setPhoneNumber] = useState(formData.phonenumber || "");
+  const [password, setPassword] = useState(formData.password || "");
   const [confirmPassword, setConfirmPassword] = useState(
     formData.Confirmpassword,
     "",
   );
+  const [emailError, setEmailError] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const isEmailValid = () => {
-    if (email === "") return "Email cannot be empty...";
-    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email))
+  const isEmailValid = (value) => {
+    if (value === "") return "Email cannot be empty...";
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value))
       return "Please enter a valid email address.";
   };
-  const isPhoneNumberValid = () => {
-    if (phonenumber === "") return "Phone number cannot be empty...";
-    if (!/^[0-9]+$/.test(phonenumber))
+  const isPhoneNumberValid = (value) => {
+    if (value === "") return "Phone number cannot be empty...";
+    if (!/^[0-9]+$/.test(value))
       return "Phone number can only contain numbers.";
+    return false;
   };
-  const isPasswordValid = () => {
-    if (password === "") return "Password cannot be empty";
+  const isPasswordValid = (value) => {
+    if (value === "") return "Password cannot be empty";
     if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        password,
+        value,
       )
     )
       return "Min 8 chars, uppercase, lowercase, number, special character.";
   };
-  const isConfirmPasswordValid = () => {
-    if (confirmPassword === "") return "Please confirm your password.";
-    if (password !== confirmPassword) return "Passwords must match.";
+  const isConfirmPasswordValid = (value) => {
+    if (value === "") return "Please confirm your password.";
+    if (password !== value) return "Passwords must match.";
   };
 
   const handleContinue = () => {
-    if (
-      isEmailValid() ||
-      isPhoneNumberValid() ||
-      isPasswordValid() ||
-      isConfirmPasswordValid()
-    )
+    const emailError = isEmailValid(email);
+    const phoneNumberError = isPhoneNumberValid(phonenumber);
+    const passwordError = isPasswordValid(password);
+    const confirmPasswordError = isConfirmPasswordValid(confirmPassword);
+    setEmailError(emailError);
+    setPhoneNumberError(phoneNumberError);
+    setPasswordError(passwordError);
+    setConfirmPasswordError(confirmPasswordError);
+    if (emailError || phoneNumberError || passwordError || confirmPasswordError)
       return;
-    onNext();
+    onNext({
+      email: email,
+      phonenumber: phonenumber,
+      password: password,
+      Confirmpassword: confirmPassword,
+    });
+    console.log;
   };
   useState(formData.email || "");
   return (
@@ -55,24 +69,39 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
           </p>
           <TextField
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={isEmailValid()}
+            onChange={(e) => {
+              const value = e.target.value;
+              setEmail(value);
+              const error = isEmailValid(value);
+              setEmailError(error);
+            }}
+            error={emailError}
             required={true}
             label="Email"
             placeholder="honi10@Gmaiiiiiil.com"
           />
           <TextField
             value={phonenumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            error={isPhoneNumberValid()}
+            onChange={(e) => {
+              const value = e.target.value;
+              setPhoneNumber(value);
+              const error = isPhoneNumberValid(value);
+              setPhoneNumberError(error);
+            }}
+            error={phoneNumberError}
             required={true}
             label="Phone number"
             placeholder="160004000473115037(tdb)"
           />
           <TextField
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            error={isPasswordValid()}
+            onChange={(e) => {
+              const value = e.target.value;
+              setPassword(value);
+              const error = isPasswordValid(value);
+              setPasswordError(error);
+            }}
+            error={passwordError}
             required={true}
             type="password"
             label="Password"
@@ -80,8 +109,13 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
           />
           <TextField
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            error={isConfirmPasswordValid()}
+            onChange={(e) => {
+              const value = e.target.value;
+              setConfirmPassword(value);
+              const error = isConfirmPasswordValid(value);
+              setConfirmPasswordError(error);
+            }}
+            error={confirmPasswordError}
             required={true}
             type="password"
             label="Confirm password"
@@ -99,7 +133,7 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
             onClick={handleContinue}
             className="flex justify-center items-center w-full h-11 bg-black rounded-md text-white text-sm font-medium"
           >
-            Continue 2/3 →
+            Continue 3/3 →
           </button>
         </div>
       </div>

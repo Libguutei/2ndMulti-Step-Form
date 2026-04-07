@@ -5,8 +5,9 @@ import StepTwo from "./component/StepTwo";
 import StepThree from "./component/StepThree";
 
 export default function Home() {
-  const [currentStepCount, setCurrentStepCount] = useState(0);
+  const [currentStepCount, setCurrentStepCount] = useState(2);
   const [formData, setFormData] = useState({});
+  const [form, setForm] = useState();
 
   const handleNext = (data) => {
     setFormData((prev) => ({ ...prev, ...data }));
@@ -19,8 +20,11 @@ export default function Home() {
     <div>
       <CurrentStepComponent
         onNext={handleNext}
+        setFormData={setFormData}
         onBack={handleBack}
         formData={formData}
+        form={form}
+        setForm={setForm}
       />
     </div>
   );

@@ -1,31 +1,42 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { TextField } from "./TextField";
 
 export const StepOne = ({ onNext, formData }) => {
-  const [firstname, setFirstname] = useState(formData.firstname, "");
-  const [lastname, setLastname] = useState(formData.lastname, "");
-  const [username, setUsername] = useState(formData.username, "");
+  const [firstname, setFirstname] = useState(formData.firstname || "");
+  const [lastname, setLastname] = useState(formData.lastname || "");
+  const [username, setUsername] = useState(formData.username || "");
+  const [firstNameError, setFirstnameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [userNameError, setUsernameError] = useState("");
 
-  const isFirstNameValid = () => {
-    if (firstname === "") return "First name cannot be empty...";
-    if (!/^[A-Za-z-]+$/.test(firstname))
+  const isFirstNameValid = (value) => {
+    if (value === "") return "First name cannot be empty...";
+    if (!/^[A-Za-z-]+$/.test(value))
       return "First name cannot contain special characters or numbers.";
+    return "";
   };
-  const isLastNameValid = () => {
-    if (lastname === "") return "Last name cannot be empty...";
-    if (!/^[A-Za-z-]+$/.test(lastname))
+  const isLastNameValid = (value) => {
+    if (value === "") return "Last name cannot be empty...";
+    if (!/^[A-Za-z-]+$/.test(value))
       return "Last name cannot contain special characters or numbers.";
+    return "";
   };
-  const isUserNameValid = () => {
-    if (username === "") return "Username cannot be empty";
-    if (!/^[A-Za-z0-9-]+$/.test(username))
+  const isUserNameValid = (value) => {
+    if (value === "") return "Username cannot be empty";
+    if (!/^[A-Za-z0-9-]+$/.test(value))
       return "Bitch!!!! This username cannot be obtained!!";
+    return "";
   };
 
   const handleContinue = () => {
-    // Issubmitted(true);
-    if (isFirstNameValid() || isLastNameValid() || isUserNameValid()) return;
-    onNext({ firstname: firstname, lastname: lastname, username: username });
+    const fResult = isFirstNameValid(firstname);
+    const lResult = isLastNameValid(lastname);
+    const uResult = isUserNameValid(username);
+    setFirstnameError(fResult);
+    setLastNameError(lResult);
+    setUsernameError(uResult);
+    if (fResult || lResult || uResult) return;
+    onNext({ firstname, lastname, username });
   };
   useState(formData.firstname || "");
   return (
@@ -38,24 +49,39 @@ export const StepOne = ({ onNext, formData }) => {
           </p>
           <TextField
             value={firstname}
-            onChange={(e) => setFirstname(e.target.value)}
-            error={isFirstNameValid()}
+            onChange={(e) => {
+              const value = e.target.value;
+              setFirstname(value);
+              const error = isFirstNameValid(value);
+              setFirstnameError(error);
+            }}
+            error={firstNameError}
             required={true}
             label="First name"
             placeholder="A"
           />
           <TextField
             value={lastname}
-            onChange={(e) => setLastname(e.target.value)}
-            error={isLastNameValid()}
+            onChange={(e) => {
+              const value = e.target.value;
+              setLastname(value);
+              const error = isLastNameValid(value);
+              setLastNameError(error);
+            }}
+            error={lastNameError}
             required={true}
             label="Last name"
             placeholder="MiaKhorol"
           />
           <TextField
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            error={isUserNameValid()}
+            onChange={(e) => {
+              const value = e.target.value;
+              setUsername(value);
+              const error = isUserNameValid(value);
+              setUsernameError(error);
+            }}
+            error={userNameError}
             required={true}
             label="Username"
             placeholder="A.miaKHorol69"
