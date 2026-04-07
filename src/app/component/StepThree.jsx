@@ -8,14 +8,13 @@ export const StepThree = ({
   handleContinue,
   formData,
   setFormData,
+  onNext,
 }) => {
-  // Алдааны мессежүүдийг хадгалах state
   const [errors, setErrors] = useState({
     birthday: "",
     image: "",
   });
 
-  // 1. Огноо шалгах функц
   const validateDate = () => {
     if (!formData?.birthday) {
       return "Please select your birthday.";
@@ -25,34 +24,29 @@ export const StepThree = ({
     if (selectedDate > today) {
       return "Birthday cannot be in the future.";
     }
-    return ""; // Алдаагүй
+    return "";
   };
 
-  // 2. Зураг шалгах функц
   const validateImage = () => {
     if (!formData?.image) {
       return "Please upload a profile picture.";
     }
-    return ""; // Алдаагүй
+    return "";
   };
 
   const handleNextStep = () => {
     const dateError = validateDate();
     const imageError = validateImage();
 
-    // Алдаануудыг state-д хадгалж харуулна
     setErrors({
       birthday: dateError,
       image: imageError,
     });
 
-    // Хэрэв ямар нэг алдаа байвал цаашаа явахгүй зогсоно
     if (dateError || imageError) {
       return;
     }
-
-    // Бүх зүйл зүгээр бол Home компонент руу өгөгдлөө явуулна
-    handleContinue();
+    onNext();
   };
 
   return (
@@ -76,7 +70,7 @@ export const StepThree = ({
             error={errors.birthday}
             onChange={(e) => {
               setFormData((prev) => ({ ...prev, birthday: e.target.value }));
-              setErrors((prev) => ({ ...prev, birthday: "" })); // Бичиж эхлэхэд алдааг арилгана
+              setErrors((prev) => ({ ...prev, birthday: "" }));
             }}
           />
 

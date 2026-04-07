@@ -3,9 +3,10 @@ import { useState } from "react";
 import StepOne from "./component/StepOne";
 import StepTwo from "./component/StepTwo";
 import StepThree from "./component/StepThree";
+import { StepFour } from "./component/StepFour";
 
 export default function Home() {
-  const [currentStepCount, setCurrentStepCount] = useState(2);
+  const [currentStepCount, setCurrentStepCount] = useState(0);
   const [formData, setFormData] = useState({});
   const [form, setForm] = useState();
 
@@ -14,7 +15,9 @@ export default function Home() {
     setCurrentStepCount((prev) => prev + 1);
   };
   const handleBack = () => setCurrentStepCount((prev) => prev - 1);
-  const CurrentStepComponent = [StepOne, StepTwo, StepThree][currentStepCount];
+  const CurrentStepComponent = [StepOne, StepTwo, StepThree, StepFour][
+    currentStepCount
+  ];
 
   return (
     <div>
