@@ -1,5 +1,6 @@
 import { use, useState } from "react";
 import { TextField } from "./TextField";
+import { Logo } from "./Logo";
 
 export const StepTwo = ({ onNext, onBack, formData }) => {
   const [email, setEmail] = useState(formData.email || "");
@@ -63,6 +64,7 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
     <div className="flex justify-center min-h-screen items-center bg-[#F1F1F1]">
       <div className="w-[480px] bg-white rounded-xl p-10 shadow-lg">
         <div className="space-y-4">
+          <Logo />
           <h1 className="font-semibold text-2xl">Join Us! 😎</h1>
           <p className="text-sm text-[#8E8E8E]">
             Please provide all current information accurately.

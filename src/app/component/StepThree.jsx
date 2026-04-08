@@ -2,14 +2,9 @@ import { useState } from "react";
 import ImageField from "./ImageField";
 import { Logo } from "./Logo";
 import TextField from "./TextField";
+import { Content } from "next/font/google";
 
-export const StepThree = ({
-  onBack,
-  handleContinue,
-  formData,
-  setFormData,
-  onNext,
-}) => {
+export const StepThree = ({ onBack, formData, setFormData, onNext }) => {
   const [errors, setErrors] = useState({
     birthday: "",
     image: "",
@@ -65,8 +60,16 @@ export const StepThree = ({
           <TextField
             type="date"
             label="Date of birth"
+            placeholder="2000/12/18"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => {
+              e.target.value === "" ? (e.target.type = "text") : null;
+            }}
             required={true}
             value={formData?.birthday || ""}
+            style={{
+              content: !formData?.birthday ? "attr(placeholder)" : "none",
+            }}
             error={errors.birthday}
             onChange={(e) => {
               setFormData((prev) => ({ ...prev, birthday: e.target.value }));
