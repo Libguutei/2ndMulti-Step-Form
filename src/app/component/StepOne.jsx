@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { TextField } from "./TextField";
 import { Logo } from "./Logo";
 
@@ -39,61 +39,62 @@ export const StepOne = ({ onNext, formData }) => {
     if (fResult || lResult || uResult) return;
     onNext({ firstname, lastname, username });
   };
-  useState(formData.firstname || "");
+
   return (
     <div className="flex justify-center min-h-screen items-center bg-[#F1F1F1]">
-      <div className="w-[480px] bg-white rounded-xl p-10 shadow-lg">
-        <div className="space-y-4">
+      <div className="w-[480px] h-[655px] bg-white rounded-2xl p-10 shadow-sm flex flex-col justify-between">
+        <div className="space-y-8">
           <Logo />
-          <h1 className="font-semibold text-2xl">Join Us! 😎</h1>
-          <p className="text-sm text-[#8E8E8E]">
-            Please provide all current information accurately.
-          </p>
-          <TextField
-            value={firstname}
-            onChange={(e) => {
-              const value = e.target.value;
-              setFirstname(value);
-              const error = isFirstNameValid(value);
-              setFirstnameError(error);
-            }}
-            error={firstNameError}
-            required={true}
-            label="First name"
-            placeholder="Placeholder"
-          />
-          <TextField
-            value={lastname}
-            onChange={(e) => {
-              const value = e.target.value;
-              setLastname(value);
-              const error = isLastNameValid(value);
-              setLastNameError(error);
-            }}
-            error={lastNameError}
-            required={true}
-            label="Last name"
-            placeholder="Placeholder"
-          />
-          <TextField
-            value={username}
-            onChange={(e) => {
-              const value = e.target.value;
-              setUsername(value);
-              const error = isUserNameValid(value);
-              setUsernameError(error);
-            }}
-            error={userNameError}
-            required={true}
-            label="Username"
-            placeholder="Placeholder"
-          />
+          <div className="space-y-2">
+            <h1 className="font-bold text-2xl text-[#121316]">Join Us! 😎</h1>
+            <p className="text-md text-[#8E8E8E]">
+              Please provide all current information accurately.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <TextField
+              value={firstname}
+              onChange={(e) => {
+                const v = e.target.value;
+                setFirstname(v);
+                setFirstnameError(isFirstNameValid(v));
+              }}
+              error={firstNameError}
+              required
+              label="First name"
+              placeholder="First name"
+            />
+            <TextField
+              value={lastname}
+              onChange={(e) => {
+                const v = e.target.value;
+                setLastname(v);
+                setLastNameError(isLastNameValid(v));
+              }}
+              error={lastNameError}
+              required
+              label="Last name"
+              placeholder="Last name"
+            />
+            <TextField
+              value={username}
+              onChange={(e) => {
+                const v = e.target.value;
+                setUsername(v);
+                setUsernameError(isUserNameValid(v));
+              }}
+              error={userNameError}
+              required
+              label="Username"
+              placeholder="Username"
+            />
+          </div>
         </div>
         <button
           onClick={handleContinue}
-          className="flex justify-center items-center w-full p-3 mt-16 bg-black rounded-md text-white text-sm font-medium gap-2"
+          className="w-full h-12 bg-[#121316] rounded-lg text-white font-medium hover:bg-[#27272A] flex items-center justify-center gap-2 transition-all"
         >
-          Continue 1/3 →
+          Continue 1/3 <span className="text-lg">›</span>
         </button>
       </div>
     </div>

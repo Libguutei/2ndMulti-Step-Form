@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { TextField } from "./TextField";
 import { Logo } from "./Logo";
 
@@ -7,9 +7,9 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
   const [phonenumber, setPhoneNumber] = useState(formData.phonenumber || "");
   const [password, setPassword] = useState(formData.password || "");
   const [confirmPassword, setConfirmPassword] = useState(
-    formData.Confirmpassword,
-    "",
+    formData.Confirmpassword || "",
   );
+
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -19,12 +19,13 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
     if (value === "") return "Email cannot be empty...";
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value))
       return "Please enter a valid email address.";
+    return "";
   };
   const isPhoneNumberValid = (value) => {
     if (value === "") return "Phone number cannot be empty...";
     if (!/^[0-9]+$/.test(value))
       return "Phone number can only contain numbers.";
-    return false;
+    return "";
   };
   const isPasswordValid = (value) => {
     if (value === "") return "Password cannot be empty";
@@ -34,108 +35,105 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
       )
     )
       return "Min 8 chars, uppercase, lowercase, number, special character.";
+    return "";
   };
   const isConfirmPasswordValid = (value) => {
     if (value === "") return "Please confirm your password.";
     if (password !== value) return "Passwords must match.";
+    return "";
   };
 
   const handleContinue = () => {
-    const emailError = isEmailValid(email);
-    const phoneNumberError = isPhoneNumberValid(phonenumber);
-    const passwordError = isPasswordValid(password);
-    const confirmPasswordError = isConfirmPasswordValid(confirmPassword);
-    setEmailError(emailError);
-    setPhoneNumberError(phoneNumberError);
-    setPasswordError(passwordError);
-    setConfirmPasswordError(confirmPasswordError);
-    if (emailError || phoneNumberError || passwordError || confirmPasswordError)
-      return;
-    onNext({
-      email: email,
-      phonenumber: phonenumber,
-      password: password,
-      Confirmpassword: confirmPassword,
-    });
-    console.log;
+    const eErr = isEmailValid(email);
+    const pErr = isPhoneNumberValid(phonenumber);
+    const passErr = isPasswordValid(password);
+    const cErr = isConfirmPasswordValid(confirmPassword);
+
+    setEmailError(eErr);
+    setPhoneNumberError(pErr);
+    setPasswordError(passErr);
+    setConfirmPasswordError(cErr);
+
+    if (eErr || pErr || passErr || cErr) return;
+    onNext({ email, phonenumber, password, Confirmpassword: confirmPassword });
   };
-  useState(formData.email || "");
+
   return (
     <div className="flex justify-center min-h-screen items-center bg-[#F1F1F1]">
-      <div className="w-[480px] bg-white rounded-xl p-10 shadow-lg">
-        <div className="space-y-4">
+      <div className="w-[480px] h-[655px] bg-white rounded-2xl p-10 shadow-sm flex flex-col justify-between">
+        <div className="space-y-8">
           <Logo />
-          <h1 className="font-semibold text-2xl">Join Us! 😎</h1>
-          <p className="text-sm text-[#8E8E8E]">
-            Please provide all current information accurately.
-          </p>
-          <TextField
-            value={email}
-            onChange={(e) => {
-              const value = e.target.value;
-              setEmail(value);
-              const error = isEmailValid(value);
-              setEmailError(error);
-            }}
-            error={emailError}
-            required={true}
-            label="Email"
-            placeholder="Placeholder@gmail.com"
-          />
-          <TextField
-            value={phonenumber}
-            onChange={(e) => {
-              const value = e.target.value;
-              setPhoneNumber(value);
-              const error = isPhoneNumberValid(value);
-              setPhoneNumberError(error);
-            }}
-            error={phoneNumberError}
-            required={true}
-            label="Phone number"
-            placeholder="Placeholder"
-          />
-          <TextField
-            value={password}
-            onChange={(e) => {
-              const value = e.target.value;
-              setPassword(value);
-              const error = isPasswordValid(value);
-              setPasswordError(error);
-            }}
-            error={passwordError}
-            required={true}
-            type="password"
-            label="Password"
-            placeholder="**********"
-          />
-          <TextField
-            value={confirmPassword}
-            onChange={(e) => {
-              const value = e.target.value;
-              setConfirmPassword(value);
-              const error = isConfirmPasswordValid(value);
-              setConfirmPasswordError(error);
-            }}
-            error={confirmPasswordError}
-            required={true}
-            type="password"
-            label="Confirm password"
-            placeholder="**********"
-          />
+
+          <div className="space-y-2">
+            <h1 className="font-bold text-2xl text-[#121316]">Join Us! 😎</h1>
+            <p className="text-md text-[#8E8E8E]">
+              Please provide all current information accurately.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <TextField
+              label="Email"
+              required={true}
+              value={email}
+              error={emailError}
+              placeholder="Email@gmail.com"
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError(isEmailValid(e.target.value));
+              }}
+            />
+            <TextField
+              label="Phone number"
+              required={true}
+              value={phonenumber}
+              error={phoneNumberError}
+              placeholder="Phone number"
+              onChange={(e) => {
+                setPhoneNumber(e.target.value);
+                setPhoneNumberError(isPhoneNumberValid(e.target.value));
+              }}
+            />
+            <TextField
+              label="Password"
+              required={true}
+              type="password"
+              value={password}
+              error={passwordError}
+              placeholder="**********"
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError(isPasswordValid(e.target.value));
+              }}
+            />
+            <TextField
+              label="Confirm password"
+              required={true}
+              type="password"
+              value={confirmPassword}
+              error={confirmPasswordError}
+              placeholder="**********"
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                setConfirmPasswordError(isConfirmPasswordValid(e.target.value));
+              }}
+            />
+          </div>
         </div>
-        <div className="flex gap-3 mt-10">
+
+        <div className="flex gap-3 w-full">
           <button
             onClick={onBack}
-            className="flex justify-center items-center w-full h-11 border border-gray-300 rounded-md text-sm font-medium text-gray-700"
+            className="flex items-center justify-center gap-2 w-[128px] h-12 border border-[#E4E4E7] rounded-lg text-[#121316] font-medium hover:bg-gray-50 transition-all"
           >
-            ← Back
+            <span className="text-lg">‹</span> Back
           </button>
+
           <button
             onClick={handleContinue}
-            className="flex justify-center items-center w-full h-11 bg-black rounded-md text-white text-sm font-medium"
+            className="flex items-center justify-center gap-2 flex-1 h-12 bg-[#121316] rounded-lg text-white font-medium hover:bg-[#27272A] transition-all"
           >
-            Continue 3/3 →
+            Continue 2/3 <span className="text-lg">›</span>
           </button>
         </div>
       </div>

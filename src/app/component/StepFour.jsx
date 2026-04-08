@@ -1,15 +1,20 @@
-import React from "react";
 import { Logo } from "./Logo";
+
 export const StepFour = () => {
   return (
-    <div className=" bg-[#f1f1f1] w-full h-screen flex justify-center items-center">
-      <div className="w-120 bg-white h-40 rounded-md flex-col p-8 justify-start ">
+    <div className="bg-[#F1F1F1] w-full h-screen flex justify-center items-center">
+      <div className="w-[480px] bg-white rounded-2xl p-12 shadow-sm space-y-4">
         <Logo />
-        <h1 className="font-semibold text-2xl">You're All Set 🔥</h1>
-        <p className="text-sm text-[#8E8E8E]">
-          We have received your submission. Thank you!
-        </p>
+        <div className="space-y-2 text-left">
+          <h1 className="font-bold text-2xl text-[#121316]">
+            You're All Set 🔥
+          </h1>
+          <p className="text-md text-[#8E8E8E]">
+            We have received your submission. Thank you!
+          </p>
+        </div>
       </div>
     </div>
   );
 };
+export default StepFour;

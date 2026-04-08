@@ -2,7 +2,6 @@ import { useState } from "react";
 import ImageField from "./ImageField";
 import { Logo } from "./Logo";
 import TextField from "./TextField";
-import { Content } from "next/font/google";
 
 export const StepThree = ({ onBack, formData, setFormData, onNext }) => {
   const [errors, setErrors] = useState({
@@ -11,104 +10,88 @@ export const StepThree = ({ onBack, formData, setFormData, onNext }) => {
   });
 
   const validateDate = () => {
-    if (!formData?.birthday) {
-      return "Please select your birthday.";
-    }
+    if (!formData?.birthday) return "Please select your birthday.";
     const selectedDate = new Date(formData.birthday);
-    const today = new Date();
-    if (selectedDate > today) {
-      return "Birthday cannot be in the future.";
-    }
+    if (selectedDate > new Date()) return "Birthday cannot be in the future.";
     return "";
   };
 
   const validateImage = () => {
-    if (!formData?.image) {
-      return "Please upload a profile picture.";
-    }
+    if (!formData?.image) return "Please upload a profile picture.";
     return "";
   };
 
   const handleNextStep = () => {
     const dateError = validateDate();
     const imageError = validateImage();
+    setErrors({ birthday: dateError, image: imageError });
 
-    setErrors({
-      birthday: dateError,
-      image: imageError,
-    });
-
-    if (dateError || imageError) {
-      return;
-    }
+    if (dateError || imageError) return;
     onNext();
   };
 
   return (
     <div className="w-full h-screen flex justify-center items-center bg-[#F1F1F1]">
-      <div className="w-[480px] min-h-[655px] bg-white rounded-xl p-10 shadow-lg flex flex-col justify-between">
-        <div className="space-y-6">
+      <div className="w-[480px] h-[655px] bg-white rounded-2xl p-10 shadow-sm flex flex-col justify-between">
+        <div className="space-y-8">
           <Logo />
-          <div>
-            <h1 className="font-semibold text-2xl">Join Us! 😎</h1>
-            <p className="text-sm text-[#8E8E8E]">
+          <div className="space-y-2">
+            <h1 className="font-bold text-2xl text-[#121316]">Join Us! 😎</h1>
+            <p className="text-md text-[#8E8E8E]">
               Please provide all current information accurately.
             </p>
           </div>
 
-          {/* Birthday Input */}
-          <TextField
-            type="date"
-            label="Date of birth"
-            placeholder="2000/12/18"
-            onFocus={(e) => (e.target.type = "date")}
-            onBlur={(e) => {
-              e.target.value === "" ? (e.target.type = "text") : null;
-            }}
-            required={true}
-            value={formData?.birthday || ""}
-            style={{
-              content: !formData?.birthday ? "attr(placeholder)" : "none",
-            }}
-            error={errors.birthday}
-            onChange={(e) => {
-              setFormData((prev) => ({ ...prev, birthday: e.target.value }));
-              setErrors((prev) => ({ ...prev, birthday: "" }));
-            }}
-          />
+          <div className="space-y-6">
+            {/* Birthday Input */}
+            <TextField
+              label="Date of birth"
+              required={true}
+              value={formData?.birthday || ""}
+              error={errors.birthday}
+              type={formData?.birthday ? "date" : "text"}
+              placeholder="----/--/--"
+              onFocus={(e) => (e.target.type = "date")}
+              onBlur={(e) => {
+                if (!e.target.value) e.target.type = "text";
+              }}
+              onChange={(e) => {
+                setFormData((prev) => ({ ...prev, birthday: e.target.value }));
+                setErrors((prev) => ({ ...prev, birthday: "" }));
+              }}
+            />
 
-          {/* Profile Image Input */}
-          <ImageField
-            label="Profile picture"
-            required={true}
-            value={formData?.image || ""}
-            error={errors.image}
-            onChange={(e) => {
-              if (e.target.files[0]) {
-                const imageValue = URL.createObjectURL(e.target.files[0]);
-                setFormData((prev) => ({ ...prev, image: imageValue }));
-                setErrors((prev) => ({ ...prev, image: "" }));
-              }
-            }}
-            onCancel={() => {
-              setFormData((prev) => ({ ...prev, image: "" }));
-            }}
-          />
+            {/* Profile Image Input */}
+            <ImageField
+              label="Profile image"
+              required={true}
+              value={formData?.image || ""}
+              error={errors.image}
+              onChange={(e) => {
+                if (e.target.files[0]) {
+                  const imageValue = URL.createObjectURL(e.target.files[0]);
+                  setFormData((prev) => ({ ...prev, image: imageValue }));
+                  setErrors((prev) => ({ ...prev, image: "" }));
+                }
+              }}
+              onCancel={() => setFormData((prev) => ({ ...prev, image: "" }))}
+            />
+          </div>
         </div>
 
-        {/* Buttons */}
-        <div className="flex gap-3 mt-10">
+        <div className="flex gap-3 w-full">
           <button
             onClick={onBack}
-            className="flex justify-center items-center w-1/3 h-11 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all"
+            className="flex items-center justify-center gap-2 w-[128px] h-12 border border-[#E4E4E7] rounded-lg text-[#121316] font-medium hover:bg-gray-50 transition-all"
           >
-            ← Back
+            <span className="text-lg">‹</span> Back
           </button>
+
           <button
             onClick={handleNextStep}
-            className="flex justify-center items-center w-2/3 h-11 bg-black rounded-md text-white text-sm font-medium hover:bg-gray-800 transition-all"
+            className="flex items-center justify-center gap-2 flex-1 h-12 bg-[#121316] rounded-lg text-white font-medium hover:bg-[#27272A] transition-all"
           >
-            Submit 3/3
+            Continue 3/3 <span className="text-lg">›</span>
           </button>
         </div>
       </div>
