@@ -80,7 +80,7 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
             error={emailError}
             required={true}
             label="Email"
-            placeholder="honi10@Gmaiiiiiil.com"
+            placeholder="Placeholder@gmail.com"
           />
           <TextField
             value={phonenumber}
@@ -93,7 +93,7 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
             error={phoneNumberError}
             required={true}
             label="Phone number"
-            placeholder="160004000473115037(tdb)"
+            placeholder="Placeholder"
           />
           <TextField
             value={password}
@@ -107,7 +107,7 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
             required={true}
             type="password"
             label="Password"
-            placeholder="*********"
+            placeholder="**********"
           />
           <TextField
             value={confirmPassword}

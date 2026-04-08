@@ -60,7 +60,7 @@ export const StepOne = ({ onNext, formData }) => {
             error={firstNameError}
             required={true}
             label="First name"
-            placeholder="A"
+            placeholder="Placeholder"
           />
           <TextField
             value={lastname}
@@ -73,7 +73,7 @@ export const StepOne = ({ onNext, formData }) => {
             error={lastNameError}
             required={true}
             label="Last name"
-            placeholder="MiaKhorol"
+            placeholder="Placeholder"
           />
           <TextField
             value={username}
@@ -86,12 +86,12 @@ export const StepOne = ({ onNext, formData }) => {
             error={userNameError}
             required={true}
             label="Username"
-            placeholder="A.miaKHorol69"
+            placeholder="Placeholder"
           />
         </div>
         <button
           onClick={handleContinue}
-          className="flex justify-center items-center w-full h-11 mt-16 bg-black rounded-md text-white text-sm font-medium gap-2"
+          className="flex justify-center items-center w-full p-3 mt-16 bg-black rounded-md text-white text-sm font-medium gap-2"
         >
           Continue 1/3 →
         </button>
