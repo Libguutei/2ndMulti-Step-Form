@@ -60,7 +60,7 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
 
   return (
     <div className="flex justify-center min-h-screen items-center bg-[#F1F1F1]">
-      <div className="w-[480px] h-[655px] bg-white rounded-2xl p-10 shadow-sm flex flex-col justify-between">
+      <div className="w-[480px] min-h-[655px] bg-white rounded-2xl p-10 shadow-sm flex flex-col justify-between">
         <div className="space-y-8">
           <Logo />
 
@@ -121,7 +121,7 @@ export const StepTwo = ({ onNext, onBack, formData }) => {
           </div>
         </div>
 
-        <div className="flex gap-3 w-full">
+        <div className="flex gap-3 w-full pt-3">
           <button
             onClick={onBack}
             className="flex items-center justify-center gap-2 w-[128px] h-12 border border-[#E4E4E7] rounded-lg text-[#121316] font-medium hover:bg-gray-50 transition-all"
